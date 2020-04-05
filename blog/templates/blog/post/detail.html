@@ -1,0 +1,56 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+{{post.title}}
+{% endblock title %}
+
+
+
+{% block content %}
+<h1> {{post.title}}</h1>
+
+<p class="text text-muted small">Published by {{post.publish}} by author {{post.author}} </p>
+
+{{post.body|markdown}}
+
+
+
+{% with comments.count as total_comments %}
+<h4> {{ total_comments }} Comment{{total_comments|pluralize}}</h4>
+
+{% endwith %}
+
+
+{% for comment in comments %}
+<div class="comment">
+    <p class="info">
+        Comment {{ forloop.counter }} by {{ comment.name}}
+
+    </p>
+    {{comment.body|linebreaks}}
+
+
+</div>
+{% empty %}
+<p class="text-muted small">There are no comments yet.</p>
+{% endfor %}
+
+
+
+{% if new_comment %}
+<h2>Your comment has been added!</h2>
+{% else %}
+<h4>Add a new comment here.</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ comment_form|crispy}}
+    <input class="btn form-control btn-success" type="submit" value="Add new comment">
+</form>
+{% endif %}
+
+
+{% endblock content %}
