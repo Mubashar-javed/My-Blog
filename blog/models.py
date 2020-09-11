@@ -3,24 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 from taggit.managers import TaggableManager
-
-
-class PublishManager(models.Manager):
-
-    def get_queryset(self):
-        queryset = super(PublishManager, self).get_queryset().filter(
-            status='published')
-
-        return queryset
-
-
-class DraftManager(models.Manager):
-
-    def get_queryset(self):
-        queryset = super(DraftManager, self).get_queryset().filter(
-            status='draft')
-
-        return queryset
+from .manager import DraftManager, PublishManager
 
 
 class Post(models.Model):
@@ -35,8 +18,9 @@ class Post(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(
-        max_length=50, choices=STATUS_CHOICES, default='draft')
+    status = models.CharField(max_length=50,
+                              choices=STATUS_CHOICES,
+                              default='draft')
 
     objects = models.Manager()
     published = PublishManager()
@@ -59,11 +43,14 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post,
+                             on_delete=models.CASCADE,
+                             related_name='comments')
+
     name = models.CharField(max_length=50, help_text='Your name here.')
     email = models.EmailField(blank=True, null=True,
                               help_text="Enter your Email Here!")
+
     body = models.TextField(help_text='Your comment here')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True,)

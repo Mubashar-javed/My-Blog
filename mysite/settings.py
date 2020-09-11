@@ -16,28 +16,32 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
+LOCAL_APPS = [
+    'blog.apps.BlogConfig',
+]
 
-INSTALLED_APPS = [
+THIRD_PARTY = [
+    'crispy_forms',
+    'taggit',
+    'debug_toolbar',
+]
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'blog.apps.BlogConfig',  # our app
-    'crispy_forms',  # crispy_form for styling
-    'taggit',  # by this we can easily add tags to our projects
-
     # here we are adding sitemap famework to our project
     # after adding these lines we need to `migrate` our django app
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    # ............
     # adding this for postgres search functionality.
     'django.contrib.postgres',
-    'debug_toolbar',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY
 
 MIDDLEWARE = [
     # ...

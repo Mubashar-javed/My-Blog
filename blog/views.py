@@ -1,7 +1,11 @@
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import (SearchQuery,
+                                            SearchRank,
+                                            SearchVector)
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db import connections
+from django.db.models import Q
+from django.http import request
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView
 from taggit.models import Tag
 
 from .forms import CommentForm, EmailPostForm, SearchForm
@@ -77,8 +81,8 @@ def post_detail(request, year, month, day, post):
             new_comment.post = post
             # now save the comment to the dattabse
             new_comment.save()
-    else:
-        comment_form = CommentForm()
+
+    comment_form = CommentForm()
     context = {'post': post,
                'comments': comments,
                'new_comment': new_comment,
@@ -95,19 +99,25 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            # builtin search method of postgresSql
-            search_vector = SearchVector('title', 'body')
-            search_query = SearchQuery(query)
-            results = Post.published.annotate(
-                search=search_vector,
-                rank=SearchRank(search_vector, search_query)
-            ).filter(search=search_query).order_by('-rank')
-
-    return render(request, 'blog/post/search.html', {
+            if connections['default'].vendor == 'sqlite':
+                # very basics search functionality
+                results = Post.published.filter(
+                    Q(title__icontains=query) | Q(body__icontains=query)
+                )
+            if connections['default'].vendor == 'postgresql':
+                # builtin search method of postgresSql
+                search_vector = SearchVector('title', 'body')
+                search_query = SearchQuery(query)
+                results = Post.published.annotate(
+                    search=search_vector,
+                    rank=SearchRank(search_vector, search_query)
+                ).filter(search=search_query).order_by('-rank')
+    ctx = {
         'form': form,
         'query': query,
         'results': results
-    })
+    }
+    return render(request, 'blog/post/search.html', context=ctx)
 
 
 #from django.contrib.postgres.search import TrigramSimilarity
