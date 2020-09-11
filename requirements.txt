@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 asgiref @ file:///tmp/build/80754af9/asgiref_1594338739818/work
 autopep8==1.5.4
 certifi==2020.6.20
