@@ -2,14 +2,15 @@
 {% load blog_tags %}
 {% load crispy_forms_tags %}
 <html lang="en">
+
 <head>
+    {% block stylesheets %}
     <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'blog.css' %}">
-    <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-        crossorigin="anonymous">
-    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    {% endblock stylesheets %}
+    <title>{% block title %}{% endblock title %}</title>
 
 </head>
 
@@ -20,12 +21,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'blog:post_list' %}">Home <span
-                            class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'blog:post_list' %}">Home </a>
                 </li>
             </ul>
     </nav>
-    <div class="container " id="content">
+    <div class="container " id="">
         {% block content %}
         {% endblock %}
 

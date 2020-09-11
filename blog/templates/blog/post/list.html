@@ -13,7 +13,7 @@
         <p class="small text-muted">
             Published {{ post.publish }} by {{ post.author }}
         </p>
-        {{ post.body|markdown|truncatewords_html:30 }}
+        {{ post.body|markdown|truncatewords_html:5 }}
     {% endfor %}
 
 

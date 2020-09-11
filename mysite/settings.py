@@ -35,10 +35,15 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     # ............
     # adding this for postgres search functionality.
-    'django.contrib.postgres'
+    'django.contrib.postgres',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    # ...
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # ...
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -113,3 +118,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]

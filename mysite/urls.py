@@ -4,6 +4,7 @@ from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import PostSiteMap
 from blog.views import post_list
+from django.conf import settings
 
 sitemaps = {
     'posts': PostSiteMap,
@@ -16,3 +17,9 @@ urlpatterns = [
          'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('', post_list, name='index')
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
