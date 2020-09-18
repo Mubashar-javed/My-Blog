@@ -13,7 +13,7 @@ SECRET_KEY = '*7go#&q&hz-nab6s-s&1qjb#5@jx@@4yiw4zu#@ma0%1d1(ce_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 SITE_ID = 1
 LOCAL_APPS = [

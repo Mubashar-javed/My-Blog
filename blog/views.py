@@ -1,9 +1,10 @@
-from django.contrib.postgres.search import (SearchQuery,
-                                            SearchRank,
+from django.contrib.postgres.search import (SearchQuery, SearchRank,
                                             SearchVector)
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.signals import request_started
 from django.db import connections
 from django.db.models import Q
+from django.dispatch import receiver
 from django.http import request
 from django.shortcuts import get_object_or_404, render
 from taggit.models import Tag
@@ -11,12 +12,10 @@ from taggit.models import Tag
 from .forms import CommentForm, EmailPostForm, SearchForm
 from .models import Post
 
-# class PostListView(ListView):
-#     # model = Post
-#     template_name = "blog/post/list.html"
-#     paginate_by = 2
-#     context_object_name = 'posts'
-#     queryset = Post.objects.all()
+
+@receiver(request_started)
+def call_back(*args, **kwargs):
+    print("A requeste started somewhere in framework")
 
 
 def post_list(request, tag_slug=None):
@@ -26,7 +25,7 @@ def post_list(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug, )
         object_list = object_list.filter(tags_in=[tag])
 
-    paginator = Paginator(object_list, 3)  # this willl show 3 post each page.
+    paginator = Paginator(object_list, 3)  # will show 3 post/page
     page = request.GET.get('page')
 
     try:
