@@ -1,10 +1,8 @@
 from django.contrib.postgres.search import (SearchQuery, SearchRank,
                                             SearchVector)
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.core.signals import request_started
 from django.db import connections
 from django.db.models import Q
-from django.dispatch import receiver
 from django.http import request
 from django.shortcuts import get_object_or_404, render
 from taggit.models import Tag
@@ -13,19 +11,19 @@ from .forms import CommentForm, EmailPostForm, SearchForm
 from .models import Post
 
 
-@receiver(request_started)
-def call_back(*args, **kwargs):
-    print("A requeste started somewhere in framework")
-
-
 def post_list(request, tag_slug=None):
+    """ This will List all the Post in our
+    **Template:**
+
+    :template:`blog/post/list.html`
+    """
     object_list = Post.published.all()
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug, )
         object_list = object_list.filter(tags_in=[tag])
 
-    paginator = Paginator(object_list, 3)  # will show 3 post/page
+    paginator = Paginator(object_list, 3)  # this will show 3 post/page
     page = request.GET.get('page')
 
     try:

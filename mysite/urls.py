@@ -1,17 +1,20 @@
 
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path
+
 from blog.sitemaps import PostSiteMap
 from blog.views import post_list
-from django.conf import settings
 
 sitemaps = {
     'posts': PostSiteMap,
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('grappelli/', include('grappelli.urls')),  # grappelli URLS
+    path('realadmin/docs/', include('django.contrib.admindocs.urls')),
+    path('realadmin/', admin.site.urls),
     path('blog/', include('blog.urls', namespace='blog')),
     path('sitemap.xml', sitemap, {
          'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

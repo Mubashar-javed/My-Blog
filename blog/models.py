@@ -7,6 +7,9 @@ from .manager import DraftManager, PublishManager
 
 
 class Post(models.Model):
+    """ This will store all the Post entries for our blog. You can check :model: `blog.Comment` 
+    here
+    """
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),

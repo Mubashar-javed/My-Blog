@@ -24,21 +24,27 @@ THIRD_PARTY = [
     'crispy_forms',
     'taggit',
     'debug_toolbar',
+
 ]
 
 DJANGO_APPS = [
+    'grappelli',  # This must be placed before django-admin apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     # here we are adding sitemap famework to our project
     # after adding these lines we need to `migrate` our django app
     'django.contrib.sites',
     'django.contrib.sitemaps',
     # adding this for postgres search functionality.
     'django.contrib.postgres',
+
+    # admin docs generator
+    'django.contrib.admindocs'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY
@@ -47,7 +53,9 @@ MIDDLEWARE = [
     # ...
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # ...
-
+    # for django admin docs
+    'django.contrib.admindocs.middleware.XViewMiddleware',
+    # ......
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -127,3 +135,8 @@ INTERNAL_IPS = [
     '127.0.0.1',
     # ...
 ]
+
+STATIC_ROOT = 'staticfiles'
+
+
+GRAPPELLI_ADMIN_TITLE = "This is My custom Admin"
