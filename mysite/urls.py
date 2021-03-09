@@ -12,9 +12,10 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('realadmin/docs/', include('django.contrib.admindocs.urls')),
     path('realadmin/', admin.site.urls),
+
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('blog/', include('blog.urls', namespace='blog')),
     path('sitemap.xml', sitemap, {
          'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

@@ -40,24 +40,6 @@ def post_list(request, tag_slug=None):
     })
 
 
-def post_share(request, post_id):
-    post = get_object_or_404(Post, id=post_id, status='published')
-
-    if request.method == 'POST':
-        form = EmailPostForm(request.POST)
-        if form.is_valid():
-            # cd = form.cleaned_data
-            # todo sent email if forms if valid
-            # todo sent email process remaing due to no internet connection for testing
-            pass
-    else:
-        form = EmailPostForm()
-    return render(request, 'blog/post/share.html', {
-        'post': post,
-        'form': form
-    })
-
-
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published',
                              publish__year=year,
@@ -69,14 +51,10 @@ def post_detail(request, year, month, day, post):
     comments = post.comments.filter(active=True)
     new_comment = None
     if request.method == 'POST':
-        # a comment was posted
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            # create comment object but not save this to database yet
             new_comment = comment_form.save(commit=False)
-            # assign the current comment to the post
             new_comment.post = post
-            # now save the comment to the dattabse
             new_comment.save()
 
     comment_form = CommentForm()
@@ -115,9 +93,3 @@ def post_search(request):
         'results': results
     }
     return render(request, 'blog/post/search.html', context=ctx)
-
-
-#from django.contrib.postgres.search import TrigramSimilarity
-# results = Post.objects.annotate(
-# similarity = TrigramSimilarity('title', query),
-# ).filter(similarity__gt = 0.3).order_by('-similarity')

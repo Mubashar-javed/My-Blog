@@ -24,18 +24,19 @@ THIRD_PARTY = [
     'crispy_forms',
     'taggit',
     'debug_toolbar',
+    'admin_honeypot',
 
 ]
 
 DJANGO_APPS = [
-    'grappelli',  # This must be placed before django-admin apps
+    # 'grappelli',  # This must be placed before django-admin apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # here we are adding sitemap famework to our project
     # after adding these lines we need to `migrate` our django app
     'django.contrib.sites',
@@ -44,7 +45,8 @@ DJANGO_APPS = [
     'django.contrib.postgres',
 
     # admin docs generator
-    'django.contrib.admindocs'
+    'django.contrib.admindocs',
+
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY
