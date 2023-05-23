@@ -17,7 +17,7 @@ psycopg2==2.8.6
 pycodestyle==2.6.0
 pyparsing==2.4.7
 pytz==2020.1
-requests==2.24.0
+requests==2.31.0
 rope==0.16.0
 six==1.15.0
 sqlparse==0.3.1
